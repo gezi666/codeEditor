@@ -1,15 +1,7 @@
 <template>
   <section class="output-wrap">
-    <iframe
-      class="scan"
-      id="scan"
-      name="scan"
-      src
-      frameborder="0"
-      width="100%"
-      height="100%"
-      scrolling="no"
-    ></iframe>
+    <div class="resizer" @mousedown="mouseDown"></div>
+    <iframe class="scan" id="scan" name="scan" src frameborder="0" width="100%" height="100%"></iframe>
   </section>
 </template>
 
@@ -33,6 +25,16 @@ export default {
     }
   },
   methods: {
+    mouseDown() {
+      document.addEventListener("mousemove", this.resize);
+    },
+    resize() {
+      if (event.y < 200 || event.y > 800) return;
+      var foot = document.querySelector(".output-wrap");
+      var top = Number(foot.getBoundingClientRect().top);
+      var height = Number(foot.getBoundingClientRect().height);
+      foot.style.height = height + top - event.y + "px";
+    },
     updateDom(code) {
       const iframe = document.getElementById("scan");
 
@@ -58,12 +60,12 @@ export default {
     }
   },
   mounted() {
-    // document.addEventListener("mouseup", () => {
-    //   document.removeEventListener("mousemove", this.resize);
-    // });
-    // window.frames["scan"].document.addEventListener("mouseup", () => {
-    //   document.removeEventListener("mousemove", this.resize);
-    // });
+    document.addEventListener("mouseup", () => {
+      document.removeEventListener("mousemove", this.resize);
+    });
+    window.frames["scan"].document.addEventListener("mouseup", () => {
+      document.removeEventListener("mousemove", this.resize);
+    });
   },
   watch: {
     sourceCode: {
@@ -79,12 +81,17 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus">
 .output-wrap
-  width 50%
-  flex auto
-  padding 10px
+  flex none
+  height 400px
   background #fff
   display flex
+  flex-direction column
   overflow hidden
+.resizer
+  flex none
+  height 17px
+  background #333641
+  cursor row-resize
 .scan
-  overflow hidden
+  flex auto
 </style>

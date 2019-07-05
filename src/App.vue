@@ -1,11 +1,8 @@
 <template>
   <div id="app">
-    <Headbar />
-    <div class="main-wrap">
-      <Codepen />
-      <div class="resizer"></div>
-      <Output />
-    </div>
+    <Headbar/>
+    <Codepen/>
+    <Output/>
   </div>
 </template>
 
@@ -19,25 +16,6 @@ export default {
     Headbar,
     Codepen,
     Output
-  },
-  methods: {
-    mouseDown() {
-      document.addEventListener("mousemove", this.resize);
-    },
-    resize() {
-      console.log("x", event.x);
-      if (event.x < 200 || event.x > 800) return;
-      const codepen = document.querySelector(".code-pen-wrap");
-      codepen.style.width = `${event.x} px`;
-    }
-  },
-  mounted() {
-    document.addEventListener("mouseup", () => {
-      document.removeEventListener("mousemove", this.resize);
-    });
-    window.frames["scan"].document.addEventListener("mouseup", () => {
-      document.removeEventListener("mousemove", this.resize);
-    });
   }
 };
 </script>
@@ -79,17 +57,5 @@ body,
   display: flex;
   flex-direction: column;
   align-items: stretch;
-}
-.main-wrap {
-  flex: auto;
-  display: flex;
-  align-items: stretch;
-  overflow: hidden;
-}
-.resizer {
-  flex: none;
-  width: 17px;
-  background: #333641;
-  cursor: col-resize;
 }
 </style>

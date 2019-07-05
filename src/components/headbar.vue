@@ -79,7 +79,7 @@
 import Bus from "../utils/bus.js";
 import { typeList } from "../utils/typeList.js";
 import { setTimeout } from "timers";
-import html2canvas from "html2canvas";
+import domtoimage from "dom-to-image";
 export default {
   name: "headbar",
   data() {
@@ -167,13 +167,8 @@ export default {
       if (this.operateFlag === "new") {
         this.newCase();
       } else if (this.operateFlag === "save") {
-        setTimeout(() => {
-          this.saveImage().then(canvas => {
-            let imgURL = canvas.toDataURL();
-            this.currentCaseInfo.img = imgURL;
-            this.saveCase();
-          });
-        }, 1000);
+        this.saveImage();
+        this.saveCase();
       } else {
         return;
       }
@@ -276,11 +271,21 @@ export default {
      * 保存方案截图
      */
     saveImage() {
-      const node = document.querySelector(".output-wrap");
-      let scale = 1;
-      return html2canvas(node, {
-        logging: false // 不输出日志
-      });
+      const node = document.getElementsByClassName("output-wrap")[0];
+      console.log("node", node);
+      let self = this;
+      domtoimage
+        .toPng(node)
+        .then(function(dataUrl) {
+          var img = new Image();
+          // img.src = dataUrl;
+          // document.body.appendChild(img);
+          console.log("dataUrl", dataUrl);
+          self.currentCaseInfo.img = dataUrl;
+        })
+        .catch(function(error) {
+          console.error("oops, something went wrong!", error);
+        });
     }
   },
   mounted() {
@@ -299,7 +304,7 @@ export default {
   justify-content space-between
   align-items center
   background #272822
-  border-bottom 1px solid #000
+  border-bottom 1px solid #bfbfbf
 .head-label
   cursor pointer
   color #fff

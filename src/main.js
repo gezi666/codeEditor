@@ -28,7 +28,7 @@ Vue.use(ElementUI)
 Vue.use(VueCodemirror, {
   options: {
     tabSize: 2,
-    styleActiveLine: false,
+    styleActiveLine: true,
     lineNumbers: true,     // 是否在编辑器左侧显示行号
     line: true,
     theme: 'monokai',      // 主题
