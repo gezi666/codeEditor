@@ -5,7 +5,6 @@
 .env.*.local
 # Dependency directories
 node_modules
-dist
 
 # don't upload node_modules.rar
 node_modules.rar

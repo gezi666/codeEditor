@@ -17,10 +17,10 @@ try {
 }
 
 module.exports = {
-  publicPath: "/custom/",
+  publicPath: "./",
   devServer: {
     // easymock模拟接口
-    proxy: 'http://10.10.50.190:7300/mock/5cbeb362abf86b3bdc64f106/example'
+    // proxy: ''
   },
   productionSourceMap: false,
   // webpack相关
